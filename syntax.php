@@ -39,7 +39,7 @@ class syntax_plugin_googletrends extends DokuWiki_Syntax_Plugin {
 
     public function handle($match, $state, $pos, &$handler){
 	    $match = preg_replace("/^.*?>(.*)}}$/", "$1", $match);
-		$match = preg_replace("/[ ^,a-zA-Z0-9 +]/", "", $match);
+		$match = preg_replace("/[^,a-zA-Z0-9 +]/", "", $match);
 		$match = explode(",", $match);
         return $match;
     }
