@@ -1,9 +1,11 @@
 <?php
 /**
- * DokuWiki Plugin googletrends (Syntax Component)
+ * DokuWiki Plugin Google Trends (Syntax Component)
  *
  * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
  * @author   Vincent Tscherter <tscherter@karmin.ch>
+ * 
+ * This plugin is based on code from the googledrawing pluing by Linus Brimstedt & Michael Stewart
  */
 
 // must be run within Dokuwiki
@@ -37,15 +39,13 @@ class syntax_plugin_googletrends extends DokuWiki_Syntax_Plugin {
 
     public function handle($match, $state, $pos, &$handler){
 	    $match = preg_replace("/^.*?>(.*)}}$/", "$1", $match);
-		$match = preg_replace("/[^,a-zA-Z0-9 +]/", "", $match);
-		//$match = preg_replace("/ /", "+%2B", $match);
+		$match = preg_replace("/[ ^,a-zA-Z0-9 +]/", "", $match);
 		$match = explode(",", $match);
         return $match;
     }
 
     public function render($mode, &$renderer, $data) {
         if($mode != 'xhtml') return false;
-      
 		$renderer->doc .= '<script type="text/javascript" src="//www.google.ch/trends/embed.js?hl=de&q='
 		 .join($data, ',+')
 		 .'&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=500&h=330"></script>';
