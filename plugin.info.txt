@@ -1,7 +1,7 @@
 base   googletrends
-author Linus Brimstedt
-email  linus@brimstedt.se
-date   2014-05-07
+author Vincent Tscherter
+email  vincent.tscherter@gmail.com
+date   2014-10-31
 name   googletrends plugin
-desc   Shows a published google drawing as an image.
+desc   Shows google trends for a given set of keywords.
 url    http://www.dokuwiki.org/plugin:googletrends
