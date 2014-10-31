@@ -1,6 +1,6 @@
-googledrawing Plugin for DokuWiki
+googletrends Plugin for DokuWiki
 
-Shows google trends
+Shows google trends for a set of keywords
 
 All documentation for this plugin can be found at
 http://www.dokuwiki.org/plugin:googletrends
@@ -13,7 +13,7 @@ Please refer to http://www.dokuwiki.org/plugins for additional info
 on how to install plugins in DokuWiki.
 
 ----
-Copyright (C) Vincent Tscherter <tscherter@karmin.ch>
+Copyright (C) Vincent Tscherter <vincent.tscherter@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
