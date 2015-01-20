@@ -4,7 +4,7 @@
  *
  * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
  * @author   Vincent Tscherter <tscherter@karmin.ch>
- * 
+ *
  * This plugin is based on code from the googledrawing pluing by Linus Brimstedt & Michael Stewart
  */
 
@@ -18,6 +18,7 @@ if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once DOKU_PLUGIN.'syntax.php';
 
 class syntax_plugin_googletrends extends DokuWiki_Syntax_Plugin {
+
     public function getType() {
         return 'substition';
     }
@@ -38,26 +39,30 @@ class syntax_plugin_googletrends extends DokuWiki_Syntax_Plugin {
 
 
     public function handle($match, $state, $pos, &$handler){
-        $glob_match = preg_replace("/^.*?>(.*)}}$/", "$1", $match);
-        if(preg_match("/(.*)\|(.*)/", $glob_match, $matches)) {
-            $req_match = preg_replace("/[^,a-zA-Z0-9 +]/", "", $matches[1]);
-            $opt_match = $matches[2];
-        } else {
-            $req_match = preg_replace("/[^,a-zA-Z0-9 +]/", "", $glob_match);
-            $opt_match = 'fr';
-        }
-        $req_match = explode(",", $req_match);
-
-        $all_match['data'] = $req_match;
-        $all_match['hl'] = $opt_match;
-        return $all_match;
+		$match = explode("|", preg_replace("/^.*?>(.*)}}$/", "$1", $match));
+		// terms
+		$terms = preg_replace("/[^,a-zA-Z0-9 +]/", "", $match[0]);
+		$data["terms"] = explode(",", $terms );
+		// options
+		$data["hl"] = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+		$data["w"] = 500;
+		$data["h"] = 500;
+		if (isset($match[1])) {
+		  if (preg_match("/hl=([a-z]{2})/", $match[1], $matches)) $data['hl'] = $matches[1];
+		  if (preg_match("/w=([0-9]+)/", $match[1], $matches)) $data['w'] = $matches[1];
+		  if (preg_match("/h=([0-9]+)/", $match[1], $matches)) $data['h'] = $matches[1]; 
+		}
+        return $data;
     }
 
     public function render($mode, &$renderer, $data) {
         if($mode != 'xhtml') return false;
-            $renderer->doc .= '<script type="text/javascript" src="//www.google.com/trends/embed.js?hl='.$data["hl"].'&q='
-             .join($data["data"], ',+')
-             .'&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=500&h=500"></script>';
+            $renderer->doc .= '<script type="text/javascript" src="//www.google.com/trends/embed.js?'
+				.'hl='.$data["hl"]
+				.'&w='.$data["w"]
+				.'&h='.$data["h"]
+				.'&q='.join($data["terms"], ',+')
+             .'&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5"></script>';
         return true;
     }
 }
