@@ -1,7 +1,7 @@
 base   googletrends
-author Vincent Tscherter
-email  vincent.tscherter@gmail.com
-date   2014-10-31
+author Vincent Tscherter, KrustyHack
+email  vincent.tscherter@gmail.com, webmaster@nicolashug.com
+date   2015-01-20
 name   Google Trends for DokuWiki
 desc   Shows google trends for a given set of keywords.
 url    http://www.dokuwiki.org/plugin:googletrends
