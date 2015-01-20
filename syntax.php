@@ -33,22 +33,31 @@ class syntax_plugin_googletrends extends DokuWiki_Syntax_Plugin {
 
 
     public function connectTo($mode) {
-                $this->Lexer->addSpecialPattern('{{googletrends>.*?}}',$mode,'plugin_googletrends');
+        $this->Lexer->addSpecialPattern('{{googletrends>.*?}}',$mode,'plugin_googletrends');
     }
 
 
     public function handle($match, $state, $pos, &$handler){
-	    $match = preg_replace("/^.*?>(.*)}}$/", "$1", $match);
-		$match = preg_replace("/[^,a-zA-Z0-9 +]/", "", $match);
-		$match = explode(",", $match);
-        return $match;
+        $glob_match = preg_replace("/^.*?>(.*)}}$/", "$1", $match);
+        if(preg_match("/(.*)\|(.*)/", $glob_match, $matches)) {
+            $req_match = preg_replace("/[^,a-zA-Z0-9 +]/", "", $matches[1]);
+            $opt_match = $matches[2];
+        } else {
+            $req_match = preg_replace("/[^,a-zA-Z0-9 +]/", "", $glob_match);
+            $opt_match = 'fr';
+        }
+        $req_match = explode(",", $req_match);
+
+        $all_match['data'] = $req_match;
+        $all_match['hl'] = $opt_match;
+        return $all_match;
     }
 
     public function render($mode, &$renderer, $data) {
         if($mode != 'xhtml') return false;
-		$renderer->doc .= '<script type="text/javascript" src="//www.google.ch/trends/embed.js?hl=de&q='
-		 .join($data, ',+')
-		 .'&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=500&h=330"></script>';
+            $renderer->doc .= '<script type="text/javascript" src="//www.google.com/trends/embed.js?hl='.$data["hl"].'&q='
+             .join($data["data"], ',+')
+             .'&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=500&h=500"></script>';
         return true;
     }
 }
