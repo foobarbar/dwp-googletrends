@@ -2,7 +2,7 @@
 /**
  * DokuWiki Plugin Google Trends (Syntax Component)
  *
- * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
+ * @license  GPL3
  * @author   Vincent Tscherter <tscherter@karmin.ch>
  *
  * This plugin is based on code from the googledrawing pluing by Linus Brimstedt & Michael Stewart
