@@ -38,7 +38,7 @@ class syntax_plugin_googletrends extends DokuWiki_Syntax_Plugin {
     }
 
 
-    public function handle($match, $state, $pos, &$handler){
+    public function handle($match, $state, $pos, Doku_Handler $handler){
 		$match = explode("|", preg_replace("/^.*?>(.*)}}$/", "$1", $match));
 		// terms
 		$terms = preg_replace("/[^,a-zA-Z0-9 +]/", "", $match[0]);
@@ -55,7 +55,7 @@ class syntax_plugin_googletrends extends DokuWiki_Syntax_Plugin {
         return $data;
     }
 
-    public function render($mode, &$renderer, $data) {
+    public function render($mode, Doku_Renderer $renderer, $data) {
         if($mode != 'xhtml') return false;
             $renderer->doc .= '<script type="text/javascript" src="//www.google.com/trends/embed.js?'
 				.'hl='.$data["hl"]
